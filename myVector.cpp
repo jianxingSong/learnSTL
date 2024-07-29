@@ -3,6 +3,10 @@
 
 using namespace std;
 
+
+//! 维护的是start finish 和end三个指针
+//! 最难的应该就是reserve函数了
+//! 同时还要注意insert 和 erase的迭代器失效的问题
 template <typename T>
 class MyVector{
 public:
@@ -88,9 +92,9 @@ public:
         assert(pos >= _start && pos <= _finish);
         //先判断目前容器的size是否已经达到了capacity
         if(_finish == _end_of_storage){
+            size_t len = pos - _start;
             reserve(capacity() == 0 ? 4 : capacity() * 2);
-            *_finish++ = t;
-            return _finish;
+            pos = _start + len;
         }
 
         //否则需要将容器pos以后的元素全部向后移动
@@ -101,7 +105,7 @@ public:
         }
         *end = t;
         _finish++;
-        return _finish;
+        return ++pos;
     }
 
     //erase同样也要考虑迭代器失效的问题
@@ -139,7 +143,7 @@ public:
                     temp[i] = _start[i];
                 }
             }
-
+            delete[] _start;
             _start = temp;
             _finish = _start + sz;
             _end_of_storage = _start + n;
@@ -162,11 +166,16 @@ private:
 
 int main() {
     MyVector<int> vec(5, 1);
-    vec.push_back(6);
-    vec.pop_back();
-    vec.insert(vec.begin() + 5, 6);
-    cout << vec[5] << endl;
-    vec.erase(vec.begin() + 5);
-    cout << vec.size() << ", " << vec.capacity() << endl;
+    for(int i = 0;i < vec.size();i++){
+        vec[i] = i;
+    }
+    auto p = vec.insert(vec.begin() + 2, 20);
+    cout << *(p++) << endl;
+//    vec.push_back(6);
+//    vec.pop_back();
+//    vec.insert(vec.begin() + 5, 6);
+//    cout << vec[5] << endl;
+//    vec.erase(vec.begin() + 5);
+//    cout << vec.size() << ", " << vec.capacity() << endl;
     return 0;
 }

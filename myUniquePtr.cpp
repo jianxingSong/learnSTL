@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//! 与shared_ptr不同的是需要维护一个删除器deleter
 template <typename T, typename deleter = default_delete<T>>
 class MyUniquePtr{
 public:
@@ -49,7 +50,7 @@ public:
     }
 
 private:
-    deleter m_deleter;
+    deleter m_deleter; //deleter没有使用什么花里胡哨的内存管理，直接就声明在了栈上，作为一个函数对象
     T* m_ptr;
 };
 

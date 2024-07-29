@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//! 先要定义链表的节点模板类
 template <typename T>
 struct Node{
     T value;
@@ -15,7 +16,8 @@ struct Node{
 };
 
 
-//就是一个封装好的指针
+//! 就是一个封装好的指针
+//! 需要重载两个++运算符 以及解引用运算符 以及相等运算符
 template <typename T>
 class Iterator{
 public:
@@ -54,6 +56,7 @@ private:
     Node<T>* ptr;
 };
 
+//! 这个类的成员变量就只有伪头部节点 但是需要注意 对链表类的操作都是通过迭代器实现的
 template <typename T>
 class MyList{
 public:

@@ -6,6 +6,8 @@
 
 using namespace std;
 
+//! shared_ptr需要注意的是要单独定义一个控制块，用于存储引用计数
+//! 并且定义增加 减少和获取这种接口
 class shared_count{
 public:
     shared_count(): count(1){
@@ -28,6 +30,10 @@ private:
     long long count;
 };
 
+
+//! shared_ptr维护两个成员两个成员变量：指向计数器的指针以及指向真正对象的指针
+//! 然后定义构造函数以及拷贝赋值运算符就可以了
+//! 还有一下向useCount的接口以及一些解引用的操作符重载等等
 template <typename T>
 class MySharedPtr{
 public:
@@ -122,18 +128,25 @@ public:
     }
 
 
-
-
 private:
     T* ptr;
     shared_count* sh_cnt_ptr;
 };
 
+class Test{
+public:
+    void print(){
+        cout << 11111 << endl;
+    }
+};
+
 int main(){
-    MySharedPtr<int> shPtr1 = new int(10);
-    MySharedPtr<int> shPtr2 = shPtr1;
-    MySharedPtr<int> shPtr3 = move(shPtr2);
-    cout << shPtr1.useCount() << ", " << shPtr2.useCount() << endl;
+//    MySharedPtr<int> shPtr1 = new int(10);
+//    MySharedPtr<int> shPtr2 = shPtr1;
+//    MySharedPtr<int> shPtr3 = move(shPtr2);
+//    cout << shPtr1.useCount() << ", " << shPtr2.useCount() << endl;
+    MySharedPtr<Test> shP1 = new Test();
+    shP1->print();
 
 }
 
